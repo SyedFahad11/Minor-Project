@@ -1,0 +1,14 @@
+{
+  "compilerOptions": {
+    "target": "ES2020",                         // Specify ECMAScript target version
+    "module": "CommonJS",                       // Specify module code generation (Node.js)
+    "moduleResolution": "Node",                 // Resolve modules using Node.js-style resolution
+    "esModuleInterop": true,                    // Enables `import mongoose from "mongoose";` syntax
+    "strict": true,                             // Enable all strict type-checking options
+    "forceConsistentCasingInFileNames": true,   // Disallow inconsistently-cased references to the same file
+    "skipLibCheck": true,                       // Skip type checking of all declaration files
+    "outDir": "./dist",                         // Redirect output structure to the 'dist' directory                       // 
+    "resolveJsonModule": true                   // Include modules written as JSON
+  },
+  "exclude": ["node_modules", "**/*.spec.ts"]   // Exclude `node_modules` and test files
+}
