@@ -40,7 +40,7 @@ contract DrugEnsureRegistry {
         }
     }
 
- 
+
     function getUser(address _wallet) public view returns (UserType, string memory, string memory, string memory) {
         User memory user = users[_wallet];
         return (user.userType, user.name, user.companyName, user.regNo);
