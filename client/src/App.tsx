@@ -1,4 +1,4 @@
-import UserRegister from "./components/userRegister"
+import UserRegister from "./components/Register"
 function App() {
 
   return (
