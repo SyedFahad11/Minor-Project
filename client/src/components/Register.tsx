@@ -64,7 +64,7 @@ const UserRegister: React.FC = () => {
             </div>
           )}
 
-          <Button className="w-full py-2 mt-4 bg-dark text-white" type="submit">
+          <Button className="w-full py-2 mt-4 " type="submit">
             Register
           </Button>
         </form>
