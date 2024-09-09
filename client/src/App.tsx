@@ -6,7 +6,7 @@ import { arbitrumSepolia } from "wagmi/chains"
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
 
 import UserRegister from "./components/Register";
-import LandingPage from "./components/Landing";
+import LandingPage from "./components/Home";
 
 const config = createConfig(
   getDefaultConfig({
