@@ -12,7 +12,7 @@ const config = createConfig(
   getDefaultConfig({
     walletConnectProjectId:"",
     chains: [arbitrumSepolia],
-    appName: "Supply_Trace",
+    appName: "DrugEnsure",
   })
 )
 const queryClient = new QueryClient()
@@ -22,7 +22,7 @@ function App() {
     <>
       <WagmiProvider config={config}>
       <QueryClientProvider client={queryClient}>
-        <ConnectKitProvider theme="rounded">
+        <ConnectKitProvider theme="web95">
           <BrowserRouter>
             <Routes>
               <Route path="/" element={<LandingPage />} />
