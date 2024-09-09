@@ -22,7 +22,7 @@ function App() {
     <>
       <WagmiProvider config={config}>
       <QueryClientProvider client={queryClient}>
-        <ConnectKitProvider theme="web95">
+        <ConnectKitProvider theme="minimal">
           <BrowserRouter>
             <Routes>
               <Route path="/" element={<LandingPage />} />
