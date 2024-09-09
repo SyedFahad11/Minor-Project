@@ -4,12 +4,14 @@ import { ConnectKitButton } from "connectkit";
 import ContractAddress from "@/env";
 import { contractAbi } from "@/abi/ContractABI";
 import { useAccount, useReadContract } from "wagmi";
-
+import { useNavigate } from 'react-router-dom';
 
 export default function Home() {
 
   const { isConnected, address } = useAccount();
   const [isRegisterd, registered] = useState(false);
+
+  const navigate = useNavigate();
 
   const { data, isFetched } = useReadContract({
     abi: contractAbi,
@@ -23,17 +25,16 @@ export default function Home() {
     //@ts-ignore
     const username = (data ? data[1] : "");
 
-
-    if (username == "" && data !== undefined) {
-      console.log("Not Registered");
-    }
-
     if (address && username) {
       console.log("Data from Registry ", data);
       registered(true);
       //Navigate to Landing page
     }
   }, [data,isConnected]);
+
+  const handleClick=()=>{
+    navigate('/register');
+  }
 
 
   return <>
@@ -61,7 +62,7 @@ export default function Home() {
                 below to continue
               </div>
               <div className="mx-auto mt-4">
-                <Button variant="outline" className="h-15 w-30 rounded-none text-lg font-normal" >Register</Button>
+                <Button variant="outline" className="h-15 w-30 rounded-none text-lg font-normal" onClick={handleClick}>Register</Button>
               </div>
 
             </div>)
