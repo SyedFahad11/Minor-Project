@@ -22,13 +22,13 @@ export default function Home() {
 
   useEffect(() => {
 
-    //@ts-ignore
+
     const username = (data ? data[1] : "");
 
     if (address && username) {
       console.log("Data from Registry ", data);
       registered(true);
-      //Navigate to Landing page
+
       navigate('/marketplace');
     }
   }, [data,isConnected]);
