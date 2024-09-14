@@ -1,10 +1,10 @@
-import React, { useState, ChangeEvent, FormEvent} from "react";
+import React, { useState, ChangeEvent, FormEvent ,useEffect} from "react";
 import { Input} from '@/shad/input';
 import { Label} from '@/shad/label';
 import { Button} from '@/shad/button';
 import { Card} from '@/shad/card';
-import { useAccount } from "wagmi";
-
+import { useAccount, useWriteContract } from "wagmi";
+import { contractAbi } from "@/abi/ContractABI";
 
 interface FormData{
   type:string,
@@ -20,9 +20,12 @@ const UserRegister: React.FC = () => {
     companyName:""
 
   });
+  const { writeContract, isPending ,  isSuccess } = useWriteContract();
 
   const handleTypeChange = (event: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = event.target;
+    
+
 
     setFormData({
       ...formData,
@@ -33,11 +36,25 @@ const UserRegister: React.FC = () => {
 
   const { isConnected, address } = useAccount();
 
-  const handleSubmit= ( event :FormEvent<HTMLButtonElement>) =>{
+  const handleSubmit= async ( event :FormEvent<HTMLButtonElement>) =>{
     event.preventDefault();
-
-    console.log(formData);
-
+    console.log("Registering...");
+    console.log("Form Data: ", formData);
+      try { writeContract({
+          abi: contractAbi,
+          functionName: "setUser",
+          address: "0xf6afce7d849f4C4006A5998B6Ba49f816edDC8D6",
+          args: [
+            formData.username,
+            formData.companyName,
+            formData.regNo,
+            formData.type
+          ]
+        });
+        console.log("Transaction sent:");
+      } catch (err) {
+        console.error("Error sending transaction:", err);
+      }
   }
 
   return (
