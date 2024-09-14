@@ -11,7 +11,7 @@ import UserRegister from "./components/Register";
 import MarketPlace from './components/MarketPlace';
 import Inventory from './components/Inventory';
 import Sold from './components/Sold';
-import AddProducts from './components/AddProducts';
+import AddProducts from './components/Add Products';
 import Transactions from './components/Transactions';
 import Verify from './components/Verify';
 import Layout from './components/Layout'; // Import Layout
@@ -33,10 +33,12 @@ function App() {
         <QueryClientProvider client={queryClient}>
           <ConnectKitProvider theme="minimal">
             <BrowserRouter>
-              <Layout> {/* Layout wraps all routes */}
+              <Routes>
+                <Route path="/" element={<Home />} />
+                <Route path="/register" element={<UserRegister />} />
+              </Routes>
+              <Layout>
                 <Routes>
-                  <Route path="/home" element={<Home />} /> {/* Home component */}
-                  <Route path="/register" element={<UserRegister />} />
                   <Route path="/marketplace" element={<MarketPlace />} />
                   <Route path="/inventory" element={<Inventory />} />
                   <Route path="/sold" element={<Sold />} />
@@ -44,7 +46,7 @@ function App() {
                   <Route path="/transactions" element={<Transactions />} />
                   <Route path="/verify" element={<Verify />} />
                 </Routes>
-              </Layout> {/* End Layout */}
+              </Layout>
             </BrowserRouter>
           </ConnectKitProvider>
         </QueryClientProvider>
