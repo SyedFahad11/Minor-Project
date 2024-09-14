@@ -34,6 +34,7 @@ const UserRegister: React.FC = () => {
 
   const handleSubmit= ( event :FormEvent<HTMLButtonElement>) =>{
     event.preventDefault();
+    
     console.log(formData);
 
   }
