@@ -29,6 +29,7 @@ export default function Home() {
       console.log("Data from Registry ", data);
       registered(true);
       //Navigate to Landing page
+      navigate('/marketplace');
     }
   }, [data,isConnected]);
 

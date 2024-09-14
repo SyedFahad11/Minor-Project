@@ -1,13 +1,15 @@
+import { Button } from '@/shad/button';
 import React from 'react';
 import { NavLink } from 'react-router-dom';
-import './Sidebar.css'; 
+import { ConnectKitButton } from 'connectkit';
 
+const handleLogout=()=>{
+
+}
 const Sidebar: React.FC = () => {
   return (
     <nav className="flex flex-col custom-space p-4 bg-gray-100 h-screen">
-      <NavLink to="/home" className="btn">
-        Home
-      </NavLink>
+
       <NavLink to="/marketplace" className="btn">
         Market Place
       </NavLink>
@@ -26,6 +28,7 @@ const Sidebar: React.FC = () => {
       <NavLink to="/verify" className="btn">
         Verify
       </NavLink>
+      <ConnectKitButton/>
     </nav>
   );
 };
