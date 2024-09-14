@@ -1,4 +1,3 @@
-
 import React from 'react';
 import Sidebar from './Common/Sidebar';
 
@@ -9,11 +8,10 @@ interface LayoutProps {
 const Layout: React.FC<LayoutProps> = ({ children }) => {
   return (
     <div className="flex">
-      <div className="w-[10%]">
+      <div className="w-64">
         <Sidebar />
       </div>
-
-      <div className="w-[85%] p-6">
+      <div className="flex-1 p-6">
         {children}
       </div>
     </div>
