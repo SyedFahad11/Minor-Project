@@ -1,10 +1,14 @@
 import React from 'react';
+import Layout from '../Layout';
 
 const Inventory: React.FC = () => {
   return (
-    <div>
-      <p>This is Inventory Page</p>
-    </div>
+    <Layout>
+
+      <div>
+        <p>This is Inventory Page</p>
+      </div>
+    </Layout>
   );
 };
 

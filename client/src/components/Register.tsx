@@ -5,6 +5,7 @@ import { Button} from '@/shad/button';
 import { Card} from '@/shad/card';
 import { useAccount } from "wagmi";
 
+
 interface FormData{
   type:string,
   username:string,
@@ -34,7 +35,7 @@ const UserRegister: React.FC = () => {
 
   const handleSubmit= ( event :FormEvent<HTMLButtonElement>) =>{
     event.preventDefault();
-    
+
     console.log(formData);
 
   }

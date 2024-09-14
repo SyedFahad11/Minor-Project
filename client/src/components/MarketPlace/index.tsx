@@ -1,10 +1,15 @@
 import React from 'react';
+import Layout from '../Layout';
+
 
 const MarketPlace: React.FC = () => {
   return (
-    <div>
-      <p>This is MarketPlace Page</p>
-    </div>
+    <Layout>
+
+      <div>
+        <p>This is MarketPlace Page</p>
+      </div>
+    </Layout>
   );
 };
 

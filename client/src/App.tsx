@@ -11,10 +11,9 @@ import UserRegister from './components/Register';
 import MarketPlace from './components/MarketPlace';
 import Inventory from './components/Inventory';
 import Sold from './components/Sold';
-import AddProducts from './components/Add Products'; 
+import AddProducts from './components/Add Products';
 import Transactions from './components/Transactions';
 import Verify from './components/Verify';
-import Layout from './components/Layout';
 
 const config = createConfig(
   getDefaultConfig({
@@ -32,19 +31,20 @@ function App() {
       <QueryClientProvider client={queryClient}>
         <ConnectKitProvider theme="minimal">
           <BrowserRouter>
-            <Layout>
-              <Routes>
-                <Route path="/" element={<Home />} />
-                <Route path="/register" element={<UserRegister />} />
-                <Route path="/marketplace" element={<MarketPlace />} />
-                <Route path="/inventory" element={<Inventory />} />
-                <Route path="/sold" element={<Sold />} />
-                <Route path="/add-products" element={<AddProducts />} />
-                <Route path="/transactions" element={<Transactions />} />
-                <Route path="/verify" element={<Verify />} />
-              </Routes>
-            </Layout>
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/register" element={<UserRegister />} />
+
+              <Route path="/marketplace" element={<MarketPlace />} />
+              <Route path="/inventory" element={<Inventory />} />
+              <Route path="/sold" element={<Sold />} />
+              <Route path="/add-products" element={<AddProducts />} />
+              <Route path="/transactions" element={<Transactions />} />
+              <Route path="/verify" element={<Verify />} />
+
+            </Routes>
           </BrowserRouter>
+
         </ConnectKitProvider>
       </QueryClientProvider>
     </WagmiProvider>

@@ -1,10 +1,14 @@
 import React from 'react';
+import Layout from '../Layout';
 
 const Verify: React.FC = () => {
   return (
-    <div>
-      <p>This is Verify Page</p>
-    </div>
+    <Layout>
+
+      <div>
+        <p>This is Verify Page</p>
+      </div>
+    </Layout>
   );
 };
 
