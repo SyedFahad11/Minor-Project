@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Input } from "@/shad/input";
 import { Button } from "@/shad/button";
 import { Label } from "@/shad/label";
-import Layout from "../Layout"; 
+import Layout from "../Layout";
 
 export default function AddProduct() {
   const [productName, setProductName] = useState("");
@@ -20,16 +20,13 @@ export default function AddProduct() {
     };
 
     console.log(newProduct);
-    
   };
 
   return (
     <Layout>
       <div className="flex flex-col items-center py-12 px-4 lg:px-20">
         <h1 className="text-3xl font-semibold text-center mb-3">Create New Product</h1>
-        <p className="text-base text-gray-500 mb-6 text-center">
-          Enter details for a new product to sell.
-        </p>
+
 
         <form className="space-y-5 w-full max-w-lg" onSubmit={handleSubmit}>
           <div className="flex flex-col">
@@ -42,6 +39,7 @@ export default function AddProduct() {
               onChange={(e) => setProductName(e.target.value)}
               placeholder="Enter product name"
               className="border border-gray-300 p-2.5 rounded-md"
+              required
             />
           </div>
 
@@ -55,6 +53,7 @@ export default function AddProduct() {
               onChange={(e) => setProductSerial(e.target.value)}
               placeholder="Enter product serial no."
               className="border border-gray-300 p-2.5 rounded-md"
+              required
             />
           </div>
 
@@ -69,6 +68,7 @@ export default function AddProduct() {
               onChange={(e) => setProductPrice(Number(e.target.value))}
               placeholder="0"
               className="border border-gray-300 p-2.5 rounded-md"
+              required
             />
           </div>
 
@@ -83,6 +83,7 @@ export default function AddProduct() {
               onChange={(e) => setTaxRate(Number(e.target.value))}
               placeholder="0"
               className="border border-gray-300 p-2.5 rounded-md"
+              required
             />
           </div>
 
