@@ -16,7 +16,7 @@ interface Drug {
   drugName: string;
   compositions: Composition[];
   units: number;
-  totalDosage: number; 
+  totalDosage: number;
   price: number;
   expiryDate: string;
 }
@@ -27,7 +27,7 @@ export default function SellDrug() {
   const [units, setUnits] = useState<number>(0);
   const [totalDosage, setTotalDosage] = useState<number>(0);
   const [price, setPrice] = useState<number>(0);
-  const [expiryDate, setExpiryDate] = useState<string>(""); 
+  const [expiryDate, setExpiryDate] = useState<string>("");
 
   const handleAddComposition = () => {
     setCompositions([...compositions, { name: "", dosage: "" }]);
@@ -47,7 +47,7 @@ export default function SellDrug() {
       units,
       totalDosage,
       price,
-      expiryDate, 
+      expiryDate,
     };
 
     console.log(newDrug);
@@ -57,7 +57,7 @@ export default function SellDrug() {
     <Layout>
       <div className="flex flex-col items-center py-12 px-4 lg:px-20">
         <h1 className="text-3xl font-semibold text-center mb-3">Sell New Drug</h1>
-        
+
 
         <form className="space-y-5 w-full max-w-lg" onSubmit={handleSubmit}>
           <div className="flex flex-col">
@@ -117,8 +117,8 @@ export default function SellDrug() {
               <Input
                 id="totalDosage"
                 type="number"
-                value={totalDosage}
-                onChange={(e) => setTotalDosage(Number(e.target.value))}
+                onChange={(e) => {setTotalDosage(Number(e.target.value));console.log(totalDosage)}}
+                //value={totalDosage}
                 placeholder="0"
                 className="border border-gray-300 p-2.5 rounded-md w-full"
                 required
@@ -134,7 +134,7 @@ export default function SellDrug() {
             <Input
               id="units"
               type="number"
-              value={units}
+              //value={units}
               onChange={(e) => setUnits(Number(e.target.value))}
               placeholder="0"
               className="border border-gray-300 p-2.5 rounded-md"
@@ -149,7 +149,7 @@ export default function SellDrug() {
             <Input
               id="price"
               type="number"
-              value={price}
+              //value={price}
               onChange={(e) => setPrice(Number(e.target.value))}
               placeholder="0"
               className="border border-gray-300 p-2.5 rounded-md"
@@ -163,7 +163,7 @@ export default function SellDrug() {
             <Input
               id="expiryDate"
               type="date"
-              value={expiryDate}
+              //value={expiryDate}
               onChange={(e) => setExpiryDate(e.target.value)}
               className="border border-gray-300 p-2.5 rounded-md"
               required
