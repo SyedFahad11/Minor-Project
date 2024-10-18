@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Button } from "@/shad/button";
 import { ConnectKitButton } from "connectkit";
-import ContractAddress from "@/env";
+import {ContractAddress} from "@/env";
 import { contractAbi } from "@/abi/ContractABI";
 import { useAccount, useReadContract } from "wagmi";
 import { useNavigate } from 'react-router-dom';

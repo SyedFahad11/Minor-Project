@@ -4,6 +4,11 @@ import { Button } from "@/shad/button";
 import { Label } from "@/shad/label";
 import Layout from "../Layout";
 import { PlusCircle } from "lucide-react";
+import {url} from "@/env";
+import axios from 'axios';
+
+
+import { useAccount} from "wagmi";
 
 
 interface Composition {
@@ -21,6 +26,10 @@ interface Drug {
   expiryDate: string;
 }
 
+interface Product extends Drug{
+  vendorWalletAddress?:string;
+}
+
 export default function SellDrug() {
   const [drugName, setDrugName] = useState<string>("");
   const [compositions, setCompositions] = useState<Composition[]>([{ name: "", dosage: "" }]);
@@ -28,6 +37,8 @@ export default function SellDrug() {
   const [totalDosage, setTotalDosage] = useState<number>(0);
   const [price, setPrice] = useState<number>(0);
   const [expiryDate, setExpiryDate] = useState<string>("");
+
+  const { isConnected, address } = useAccount();
 
   const handleAddComposition = () => {
     setCompositions([...compositions, { name: "", dosage: "" }]);
@@ -39,18 +50,32 @@ export default function SellDrug() {
     setCompositions(newCompositions);
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async(e: React.FormEvent) => {
     e.preventDefault();
-    const newDrug: Drug = {
+    const newProduct: Product = {
       drugName,
       compositions,
       units,
       totalDosage,
       price,
       expiryDate,
+      vendorWalletAddress:address
     };
 
-    console.log(newDrug);
+    console.log(address);
+
+    const response= await axios.post(url+'/addProduct', newProduct);
+
+      if (response.status === 201) {
+
+        console.log('Product created successfully!');
+
+      } else {
+
+        console.error('Failed to create product:', response.statusText);
+      }
+
+
   };
 
   return (
