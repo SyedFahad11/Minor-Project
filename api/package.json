@@ -3,11 +3,14 @@
   "version": "1.0.0",
   "main": "index.js",
   "devDependencies": {
-    "@types/express": "^4.17.21"
+    "@types/express": "^4.17.21",
+    "nodemon": "^3.1.7",
+    "ts-node": "^10.9.2"
   },
   "scripts": {
     "build": "tsc -b",
-    "start": "npm run build && node ./dist/index.js"
+    "start": "npm run build && node ./dist/index.js",
+    "dev":"npx nodemon ./index.ts"
   },
   "dependencies": {
     "cors": "^2.8.5",
