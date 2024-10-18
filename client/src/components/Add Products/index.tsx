@@ -64,7 +64,7 @@ export default function SellDrug() {
 
     console.log(address);
 
-    const response= await axios.post(url+'/addItems', newProduct);
+    const response= await axios.post(url+'/create/addItem', newProduct);
 
       if (response.status === 201) {
 

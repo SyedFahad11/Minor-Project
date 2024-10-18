@@ -1,8 +1,13 @@
-import React from 'react';
+import React,{ useState, useEffect } from 'react';
 import Layout from '../Layout';
+import { Component } from './Card';
+import axios from 'axios';
+import { url } from '@/env';
 
-import { Card, CardContent, CardHeader, CardTitle } from "@/shad/card";
-import { Separator } from "@/shad/separator";
+
+import { useAccount} from "wagmi";
+
+
 
 interface Drug {
   drugName: string;
@@ -19,70 +24,38 @@ interface Composition {
 
 interface Product extends Drug {
   vendorWalletAddress: string;
+  _id:string
 }
 
-const Component = (props: { data: Product }) => {
-  const { drugName, compositions, units, totalDosage, price, expiryDate } = props.data;
 
-  return (
-    <div className="w-full max-w-lg mx-auto p-6">
-      <Card className="shadow-lg rounded-lg overflow-hidden border border-gray-200">
-        <CardHeader className="bg-gray-500 p-4">
-          <CardTitle>
-            <div className="text-2xl font-semibold text-gray-900">{drugName}</div>
-          </CardTitle>
-        </CardHeader>
-        <Separator className="my-2" />
-        <CardContent className="p-4">
-          <div className='flex flex-row relative'>
-            <div>
-              <div className="text-base mb-4">
-                <span className="font-medium text-gray-700">Compositions:</span>
-                <ul className="ml-4 list-disc text-gray-600 mt-2">
-                  {compositions.map((comp, index) => (
-                    <li key={index} className="text-base">
-                      <span className="font-medium">{comp.name}</span> - {comp.dosage}mg
-                    </li>
-                  ))}
-                </ul>
-              </div>
-              <div className="text-base mb-4">
-                <span className="font-medium text-gray-700">Units:</span> {units}
-              </div>
-              <div className="text-base mb-4">
-                <span className="font-medium text-gray-700">Total Dosage:</span> {totalDosage}mg
-              </div>
-              <div className="text-base mb-4">
-                <span className="font-medium text-gray-700">Price:</span> ${price}
-              </div>
-              <div className="text-base">
-                <span className="font-medium text-gray-700">Expiry Date:</span> {expiryDate}
-              </div>
-
-            </div>
-
-
-            <div className="absolute bottom-0 right-0 flex items-end justify-end">
-              <div className="flex flex-col space-y-2">
-                <button className="bg-red-600 text-white font-bold py-2 px-4 rounded-full hover:bg-red-700">
-                  Transaction History
-                </button>
-                <button className="bg-green-400 text-white font-bold py-2 px-4 rounded-full hover:bg-green-500">
-                  Buy
-                </button>
-              </div>
-            </div>
-
-          </div>
-
-        </CardContent>
-      </Card>
-    </div>
-
-  );
-};
 
 const MarketPlace: React.FC = () => {
+
+  const [data, setData] = useState<Product[]>();
+  const { isConnected, address } = useAccount();
+
+  const [isSticky, setIsSticky] = useState(false);
+
+  useEffect(()=>{
+    const fetchData = () => {
+      try {
+        const body={address:address}
+
+        axios.post(url+'/read/getItems',body)
+        .then((response)=>{
+          setData(response.data);
+        });
+
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
+
+    fetchData();
+
+  },[]);
+
+
   const p: Product = {
     drugName: "Dolo",
     compositions: [{ name: "Acetaminophen", dosage: "500" },
@@ -92,15 +65,22 @@ const MarketPlace: React.FC = () => {
     totalDosage: 56500,
     price: 29.99,
     expiryDate: "2025-12-31",
-    vendorWalletAddress: "0x123abc456def"
+    vendorWalletAddress: "0x123abc456def",
+    _id:"123"
   }
 
   return (
-    <Layout>
-      <div className="flex flex-col items-center py-12 px-4 lg:px-20">
-        <Component data={p} />
-        <Component data={p} />
-      </div>
+    <Layout >
+
+      {data === undefined ? (
+        <div>Fetching data from Backend...</div>
+      ) : (
+        <div className="flex flex-col items-center py-12 px-4 lg:px-20">
+          {data.map((item) => (
+            <Component key={item._id} data={item} /> // Use key prop for performance
+          ))}
+        </div>
+      )}
     </Layout>
   );
 };
