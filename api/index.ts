@@ -12,7 +12,8 @@ app.use(_express.json());
 
 connectToMongo();
 
-app.use('/api', require("./routes/create/index"));
+app.use('/api/create', require("./routes/create/index"));
+app.use('/api/read', require("./routes/read/index"));
 
 
 

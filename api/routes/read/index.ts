@@ -19,16 +19,22 @@ interface Composition {
 interface Product extends Drug{
   vendorWalletAddress:string,
 }
-
-router.post("/addItem", async (req:Request, res:Response) => {
+interface GetItemsRequest extends Request {
+  body: {
+    address: string;
+  };
+}
+router.get("/getItems", async (req: Request, res: Response) => {
   try {
-    const newDrug= new ProductModel(req.body as Product);
-    const savedDrug = await newDrug.save();
-    res.status(201).json({ message: "Drug added successfully", data: savedDrug });
+    const currAddress = req.body.address;
 
+
+    const products = await ProductModel.find({ vendorWalletAddress: { $ne: currAddress } });
+
+    res.status(200).json(products);
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: "Error adding drug" });
+    res.status(500).json({ message: "Error fetching items" });
   }
 });
 
