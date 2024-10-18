@@ -61,10 +61,7 @@ const Sidebar: React.FC = () => {
           </ul>
         </nav>
       </div>
-      <div className="py-4 px-6">
-        <a href="#" className="flex items-center py-3 hover:bg-gray-700 transition-colors" onClick={handleLogout}>
-          Logout
-        </a>
+      <div className="flex  justify-center py-6">
         <ConnectKitButton />
       </div>
     </div>
