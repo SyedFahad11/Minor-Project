@@ -18,42 +18,42 @@ const Sidebar: React.FC = () => {
           <ul className="flex flex-col space-y-4">
             <li className="w-full">
               <Button asChild variant="default" size="default" className="w-full bg-cyan-450">
-                <NavLink to="/marketplace" className="flex items-center py-3 px-6 justify-center w-full hover:bg-cyan-400 transition-colors">
+                <NavLink to="/marketplace" className="flex items-center py-3 px-6 justify-center w-full hover:bg-gray-500 transition-colors">
                   Market Place
                 </NavLink>
               </Button>
             </li>
             <li className="w-full">
               <Button asChild variant="default" size="default" className="w-full bg-cyan-450">
-                <NavLink to="/inventory" className="flex items-center py-3 px-6 justify-center w-full hover:bg-cyan-400 transition-colors">
+                <NavLink to="/inventory" className="flex items-center py-3 px-6 justify-center w-full hover:bg-gray-500 transition-colors">
                   Inventory
                 </NavLink>
               </Button>
             </li>
             <li className="w-full">
               <Button asChild variant="default" size="default" className="w-full bg-cyan-450">
-                <NavLink to="/sold" className="flex items-center py-3 px-6 justify-center w-full hover:bg-cyan-400 transition-colors">
+                <NavLink to="/sold" className="flex items-center py-3 px-6 justify-center w-full hover:bg-gray-500 transition-colors">
                   Sold
                 </NavLink>
               </Button>
             </li>
             <li className="w-full">
               <Button asChild variant="default" size="default" className="w-full bg-cyan-450">
-                <NavLink to="/add-products" className="flex items-center py-3 px-6 justify-center w-full hover:bg-cyan-400 transition-colors">
+                <NavLink to="/add-products" className="flex items-center py-3 px-6 justify-center w-full hover:bg-gray-500 transition-colors">
                   Add Products
                 </NavLink>
               </Button>
             </li>
             <li className="w-full">
               <Button asChild variant="default" size="default" className="w-full bg-cyan-450">
-                <NavLink to="/transactions" className="flex items-center py-3 px-6 justify-center w-full hover:bg-cyan-400 transition-colors">
+                <NavLink to="/transactions" className="flex items-center py-3 px-6 justify-center w-full hover:bg-gray-500 transition-colors">
                   Transactions
                 </NavLink>
               </Button>
             </li>
             <li className="w-full">
               <Button asChild variant="default" size="default" className="w-full bg-cyan-450">
-                <NavLink to="/verify" className="flex items-center py-3 px-6 justify-center w-full hover:bg-cyan-400 transition-colors">
+                <NavLink to="/verify" className="flex items-center py-3 px-6 justify-center w-full hover:bg-gray-500 transition-colors">
                   Verify
                 </NavLink>
               </Button>
