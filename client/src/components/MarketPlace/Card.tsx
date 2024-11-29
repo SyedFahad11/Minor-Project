@@ -2,6 +2,8 @@ import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from "@/shad/card";
 import { Separator } from "@/shad/separator";
 import { useAccount} from "wagmi";
+import axios from 'axios';
+import {url} from "@/env";
 
 import {
   SignProtocolClient,
@@ -16,15 +18,17 @@ import { ProductAttestationSchema, Transaction } from '@/lib/types';
 
 
 export const Component = (props: {data: Transaction }) => {
-  const {_id, drug,attestationId,owner,timestamp} = props.data;
+  let {_id, drug,attestationId,owner,timestamp} = props.data;
+
   const {drugName, compositions, units, totalDosage, price, expiryDate}=drug;
 
   const { isConnected, address } = useAccount();
 
   async function createSell() {
-    const attestationId="";
     const sno="1";
     const taxRate=0;
+    if(attestationId===undefined)
+      attestationId="";
     try {
       const _attestation:ProductAttestationSchema={
         previousAttestationId: attestationId,
@@ -47,18 +51,29 @@ export const Component = (props: {data: Transaction }) => {
 
       console.log(attestation.attestationId);
 
-      // if (attestationId !== "") {
-      //   console.log("Updating transaction");
-      //   await updateTransaction(attestationId);
-      // }
+      // save transaction obj to db
+
+      const newTransaction: Transaction = {
+        ...props.data,
+        attestationId:attestation.attestationId,
+        owner:address,
+        timestamp:new Date()
+      };
 
 
-      // // save transaction obj to db
-      // const res = await createTransaction({
-      //   ...transaction,
-      //   attestationId: attestation.attestationId,
-      // }); //
-      // console.log("saved transaction to database : ", res);
+      //const response= await axios.post(url+'/create/addItem', newProduct);
+      const response= await axios.post(url+'/create/transaction', newTransaction);
+
+        if (response.status === 201) {
+
+          console.log("saved transaction to database : ", response);
+
+        } else {
+
+          console.error('Failed to create product:', response.statusText);
+        }
+
+
 
     } catch (error) {
       console.error("Error submitting record:", error);

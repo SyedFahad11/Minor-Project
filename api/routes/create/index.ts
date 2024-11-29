@@ -31,7 +31,7 @@ router.post("/transaction", async (req:Request, res:Response) => {
       );
 
       console.log('Transaction updated successfully' );
-      res.status(200).json({ message: 'Transaction updated successfully' });
+      res.status(201).json({ message: 'Transaction updated successfully' });
 
     } else {
       const document= new TransactionModel({_id:data.id,...data});
