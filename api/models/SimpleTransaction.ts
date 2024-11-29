@@ -22,7 +22,7 @@ const drugSchema = new mongoose.Schema<Drug>({
 const transactionSchema = new mongoose.Schema<Transaction>({
   _id:{type: String,required:true},
   drug: { type: drugSchema, required: true },
-  attestationId: { type: String, required: true },
+  attestationId: { type: String},
   owner: { type: String, required: true },
   timestamp: { type: Date, default: Date.now },
 

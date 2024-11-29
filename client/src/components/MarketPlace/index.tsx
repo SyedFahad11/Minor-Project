@@ -1,11 +1,11 @@
-import React,{ useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import Layout from '../Layout';
 import { Component } from './Card';
 import axios from 'axios';
 import { url } from '@/env';
 
 
-import { useAccount} from "wagmi";
+import { useAccount } from "wagmi";
 import { Transaction } from '@/lib/types';
 
 
@@ -16,16 +16,16 @@ const MarketPlace: React.FC = () => {
 
   const [isSticky, setIsSticky] = useState(false);
 
-  useEffect(()=>{
+  useEffect(() => {
     const fetchData = () => {
       try {
-        const body={address:address}
+        const body = { address: address }
 
-        axios.post(url+'/read/getItems',body)
-        .then((response)=>{
-          setData(response.data);
-          //console.log(response.data);
-        });
+        axios.post(url + '/read/getItems', body)
+          .then((response) => {
+            setData(response.data);
+            //console.log(response.data);
+          });
 
       } catch (error) {
         console.error('Error fetching data:', error);
@@ -34,7 +34,7 @@ const MarketPlace: React.FC = () => {
 
     fetchData();
 
-  },[]);
+  }, []);
 
 
   // const p: Product = {
@@ -55,14 +55,15 @@ const MarketPlace: React.FC = () => {
 
       {data === undefined ? (
         <div>Fetching data from Backend...</div>
-      ) : (
+      ) : (data.length === 0 ? (<div>Nothing to show</div>) : (
         <div className="flex flex-col items-center py-12 px-4 lg:px-20">
 
           {data.map((item) => (
             <Component key={item._id} data={item} /> // Use key prop for performance
           ))}
         </div>
-      )}
+      ))
+      }
     </Layout>
   );
 };

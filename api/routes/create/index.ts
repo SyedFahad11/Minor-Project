@@ -22,13 +22,12 @@ router.post("/transaction", async (req:Request, res:Response) => {
     const data=req.body;
     console.log(data);
 
-    const document = await TransactionModel.findById(data.id);
+    const document = await TransactionModel.findById(data._id);
     if (document) {
       console.log("HERE");
       const existingTransaction = await TransactionModel.findOneAndUpdate(
-        { id: data.id },
-        { $set: { owner: data.owner, attestationId: data.attestationId } },
-        { upsert: true, new: true }
+        { _id: data._id },
+        { $set: { owner: data.owner, attestationId: data.attestationId } }
       );
 
       console.log('Transaction updated successfully' );
