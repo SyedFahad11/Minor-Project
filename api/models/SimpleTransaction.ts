@@ -16,12 +16,18 @@ const drugSchema = new mongoose.Schema<Drug>({
   expiryDate: { type: String, required: true },
 });
 
+
+
+
 const transactionSchema = new mongoose.Schema<Transaction>({
-  id:{type:String,required:true},
+  _id:{type: String,required:true},
   drug: { type: drugSchema, required: true },
   attestationId: { type: String, required: true },
   owner: { type: String, required: true },
   timestamp: { type: Date, default: Date.now },
-});
+
+}
+);
+
 
 module.exports= mongoose.model('Transaction', transactionSchema);

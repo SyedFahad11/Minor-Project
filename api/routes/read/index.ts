@@ -1,20 +1,37 @@
 import express, { Request, Response } from 'express';
-var mongoose = require('mongoose');
+//var mongoose = require('mongoose');
 var router = express.Router();
-var ProductModel=require("../../models/Product");
+var TransactionModel=require("../../models/SimpleTransaction");
+//var ProductModel=require("../../models/Product");
 
 
-interface GetItemsRequest extends Request {
-  body: {
-    address: string;
-  };
-}
+// interface GetItemsRequest extends Request {
+//   body: {
+//     address: string;
+//   };
+// }
+
+// router.post("/getItems", async (req: Request, res: Response) => {
+//   try {
+//     const currAddress = req.body.address;
+
+
+//     const products = await ProductModel.find({ vendorWalletAddress: { $ne: currAddress } });
+
+//     res.status(200).json(products);
+//   } catch (error) {
+//     console.error(error);
+//     res.status(500).json({ message: "Error fetching items" });
+//   }
+// });
+
 router.post("/getItems", async (req: Request, res: Response) => {
   try {
     const currAddress = req.body.address;
 
+    const products = await TransactionModel.find({ owner: { $ne: currAddress } });
 
-    const products = await ProductModel.find({ vendorWalletAddress: { $ne: currAddress } });
+    console.log(products);
 
     res.status(200).json(products);
   } catch (error) {
@@ -22,6 +39,7 @@ router.post("/getItems", async (req: Request, res: Response) => {
     res.status(500).json({ message: "Error fetching items" });
   }
 });
+
 
 
 module.exports=router;

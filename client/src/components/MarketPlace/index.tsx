@@ -6,12 +6,12 @@ import { url } from '@/env';
 
 
 import { useAccount} from "wagmi";
-import { Product } from '@/lib/types';
+import { Transaction } from '@/lib/types';
 
 
 const MarketPlace: React.FC = () => {
 
-  const [data, setData] = useState<Product[]>();
+  const [data, setData] = useState<Transaction[]>();
   const { isConnected, address } = useAccount();
 
   const [isSticky, setIsSticky] = useState(false);
@@ -24,6 +24,7 @@ const MarketPlace: React.FC = () => {
         axios.post(url+'/read/getItems',body)
         .then((response)=>{
           setData(response.data);
+          //console.log(response.data);
         });
 
       } catch (error) {
@@ -56,6 +57,7 @@ const MarketPlace: React.FC = () => {
         <div>Fetching data from Backend...</div>
       ) : (
         <div className="flex flex-col items-center py-12 px-4 lg:px-20">
+
           {data.map((item) => (
             <Component key={item._id} data={item} /> // Use key prop for performance
           ))}

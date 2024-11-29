@@ -10,13 +10,14 @@ import {
   OnChainClientOptions,
   AttestationResult
 } from "@ethsign/sp-sdk";
-import { Product,ProductAttestationSchema, Transaction } from '@/lib/types';
+import { ProductAttestationSchema, Transaction } from '@/lib/types';
 
 
 
 
-export const Component = (props: {data: Product }) => {
-  const { drugName, compositions, units, totalDosage, price, expiryDate,vendorWalletAddress} = props.data;
+export const Component = (props: {data: Transaction }) => {
+  const {_id, drug,attestationId,owner,timestamp} = props.data;
+  const {drugName, compositions, units, totalDosage, price, expiryDate}=drug;
 
   const { isConnected, address } = useAccount();
 
@@ -25,30 +26,22 @@ export const Component = (props: {data: Product }) => {
     const sno="1";
     const taxRate=0;
     try {
-      const transaction: Transaction = {
-        attestation: {
-          previousAttestationId: attestationId,
-          productSerialNo:sno,
-          productName: drugName,
-          soldBy: vendorWalletAddress as string,
-          boughtBy: address as string,
-          grandTotal: Number(price),
-          taxRate:taxRate
-        },
-        attestationId: attestationId,
-        from: vendorWalletAddress as string,
-        to: address as string,
-        archived: false,
-        transactionValue: Number(price),
-        timestamp: new Date(),
-      };
+      const _attestation:ProductAttestationSchema={
+        previousAttestationId: attestationId,
+        productSerialNo:sno,
+        productName: drugName,
+        soldBy:  owner as string,
+        boughtBy: address as string,
+        grandTotal: Number(price),
+        taxRate:taxRate
+      }
 
       // create attestaion and sell transaction here
-      console.log("Creating attestation :", transaction.attestation);
+      console.log("Creating attestation :", _attestation);
 
       const attestation: AttestationResult = await createAttestation(
-        transaction.attestation,
-        vendorWalletAddress as string,
+        _attestation,
+        owner as string,
         attestationId as string
       );
 
@@ -76,7 +69,7 @@ export const Component = (props: {data: Product }) => {
 
   const handleBuy=async()=>{
     console.log(address);
-    console.log(vendorWalletAddress);
+    console.log(owner);
     console.log("Hit Buy");
     try{
       await createSell();

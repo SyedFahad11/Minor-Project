@@ -20,20 +20,26 @@ router.post("/addItem", async (req:Request, res:Response) => {
 router.post("/transaction", async (req:Request, res:Response) => {
   try {
     const data=req.body;
-    const existingTransaction = await TransactionModel.findOneAndUpdate(
-      { id: data.id },
-      { $set: { owner: data.owner, attestationId: data.attestationId } },
-      { upsert: true, new: true }
-    );
+    console.log(data);
 
+    const document = await TransactionModel.findById(data.id);
+    if (document) {
+      console.log("HERE");
+      const existingTransaction = await TransactionModel.findOneAndUpdate(
+        { id: data.id },
+        { $set: { owner: data.owner, attestationId: data.attestationId } },
+        { upsert: true, new: true }
+      );
 
-
-    if (existingTransaction) {
       console.log('Transaction updated successfully' );
       res.status(200).json({ message: 'Transaction updated successfully' });
+
     } else {
-      console.log('Transaction updated successfully' );
-      res.status(201).json({ message: 'Transaction created successfully' });
+      const document= new TransactionModel({_id:data.id,...data});
+      const saved = await document.save();
+      console.log('Transaction added successfully' );
+      res.status(201).json({ message: "Transaction added successfully" });
+
     }
 
 

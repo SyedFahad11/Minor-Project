@@ -7,7 +7,7 @@ interface Drug {
   price: number;
   expiryDate: string;
 }
-interface Composition {
+export interface Composition {
   name: string;
   dosage: string;
 }
@@ -26,13 +26,11 @@ export interface ProductAttestationSchema {
   grandTotal: number;
   taxRate: number;
 }
+
 export interface Transaction {
-  attestation: ProductAttestationSchema;
-  attestationId: string;
-  from: string;
-  to: string;
-  archived: boolean;
-  transactionValue: number;
+  _id:string,
+  drug:Drug;
+  attestationId?: string;
+  owner?: string;
   timestamp: Date;
 }
-

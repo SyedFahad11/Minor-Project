@@ -6,29 +6,14 @@ import Layout from "../Layout";
 import { PlusCircle } from "lucide-react";
 import {url} from "@/env";
 import axios from 'axios';
+import {Composition,Transaction} from'@/lib/types';
+
+import { v4 as uuidv4 } from 'uuid';
 
 
 import { useAccount} from "wagmi";
 
 
-interface Composition {
-  name: string;
-  dosage: string;
-}
-
-
-interface Drug {
-  drugName: string;
-  compositions: Composition[];
-  units: number;
-  totalDosage: number;
-  price: number;
-  expiryDate: string;
-}
-
-interface Product extends Drug{
-  vendorWalletAddress?:string;
-}
 
 export default function SellDrug() {
   const [drugName, setDrugName] = useState<string>("");
@@ -52,19 +37,32 @@ export default function SellDrug() {
 
   const handleSubmit = async(e: React.FormEvent) => {
     e.preventDefault();
-    const newProduct: Product = {
-      drugName,
-      compositions,
-      units,
-      totalDosage,
-      price,
-      expiryDate,
-      vendorWalletAddress:address
+    // const newProduct: Product = {
+    //   drugName,
+    //   compositions,
+    //   units,
+    //   totalDosage,
+    //   price,
+    //   expiryDate,
+    //   vendorWalletAddress:address
+    // };
+
+
+    const uniqueId = uuidv4();
+    
+    const newProduct: Transaction = {
+      _id:uniqueId,
+      drug:{drugName,compositions,units,totalDosage,price,expiryDate},
+      attestationId:"",
+      owner:address,
+      timestamp:new Date()
     };
+
 
     console.log(address);
 
-    const response= await axios.post(url+'/create/addItem', newProduct);
+    //const response= await axios.post(url+'/create/addItem', newProduct);
+    const response= await axios.post(url+'/create/transaction', newProduct);
 
       if (response.status === 201) {
 
