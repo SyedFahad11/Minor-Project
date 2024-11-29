@@ -3,28 +3,13 @@ var mongoose = require('mongoose');
 var router = express.Router();
 var ProductModel=require("../../models/Product");
 
-interface Drug {
-  drugName: string;
-  compositions: Composition[];
-  units: number;
-  totalDosage: number;
-  price: number;
-  expiryDate: string;
-}
-interface Composition {
-  name: string;
-  dosage: string;
-}
 
-interface Product extends Drug{
-  vendorWalletAddress:string,
-}
 interface GetItemsRequest extends Request {
   body: {
     address: string;
   };
 }
-router.get("/getItems", async (req: Request, res: Response) => {
+router.post("/getItems", async (req: Request, res: Response) => {
   try {
     const currAddress = req.body.address;
 
