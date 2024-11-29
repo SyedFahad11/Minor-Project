@@ -18,6 +18,7 @@ export interface Product extends Drug {
 
 
 export interface Transaction {
+  id:string,
   drug:Drug;
   attestationId: string;
   owner: string;

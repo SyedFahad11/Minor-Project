@@ -2,7 +2,8 @@ import express, { Request, Response } from 'express';
 var mongoose = require('mongoose');
 var router = express.Router();
 var ProductModel=require("../../models/Product");
-import { Product } from '../../types/types';
+var TransactionModel=require("../../models/SimpleTransaction");
+import { Product,Transaction } from '../../types/types';
 
 router.post("/addItem", async (req:Request, res:Response) => {
   try {
@@ -16,11 +17,25 @@ router.post("/addItem", async (req:Request, res:Response) => {
   }
 });
 
-router.post("/doTransaction", async (req:Request, res:Response) => {
+router.post("/transaction", async (req:Request, res:Response) => {
   try {
-    const newDrug= new ProductModel(req.body as Product);
-    const savedDrug = await newDrug.save();
-    res.status(201).json({ message: "Drug added successfully", data: savedDrug });
+    const data=req.body;
+    const existingTransaction = await TransactionModel.findOneAndUpdate(
+      { id: data.id },
+      { $set: { owner: data.owner, attestationId: data.attestationId } },
+      { upsert: true, new: true }
+    );
+
+
+
+    if (existingTransaction) {
+      console.log('Transaction updated successfully' );
+      res.status(200).json({ message: 'Transaction updated successfully' });
+    } else {
+      console.log('Transaction updated successfully' );
+      res.status(201).json({ message: 'Transaction created successfully' });
+    }
+
 
   } catch (error) {
     console.error(error);

@@ -17,10 +17,11 @@ const drugSchema = new mongoose.Schema<Drug>({
 });
 
 const transactionSchema = new mongoose.Schema<Transaction>({
+  id:{type:String,required:true},
   drug: { type: drugSchema, required: true },
   attestationId: { type: String, required: true },
   owner: { type: String, required: true },
   timestamp: { type: Date, default: Date.now },
 });
 
-export const TransactionModel = mongoose.model('Transaction', transactionSchema);
+module.exports= mongoose.model('Transaction', transactionSchema);
