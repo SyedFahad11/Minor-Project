@@ -10,7 +10,7 @@ import {
   OnChainClientOptions,
   AttestationResult
 } from "@ethsign/sp-sdk";
-import { Product,ProductAttestationSchema } from '@/lib/types';
+import { Product,ProductAttestationSchema, Transaction } from '@/lib/types';
 
 
 
@@ -20,11 +20,72 @@ export const Component = (props: {data: Product }) => {
 
   const { isConnected, address } = useAccount();
 
+  async function createSell() {
+    const attestationId="";
+    const sno="1";
+    const taxRate=0;
+    try {
+      const transaction: Transaction = {
+        attestation: {
+          previousAttestationId: attestationId,
+          productSerialNo:sno,
+          productName: drugName,
+          soldBy: vendorWalletAddress as string,
+          boughtBy: address as string,
+          grandTotal: Number(price),
+          taxRate:taxRate
+        },
+        attestationId: attestationId,
+        from: vendorWalletAddress as string,
+        to: address as string,
+        archived: false,
+        transactionValue: Number(price),
+        timestamp: new Date(),
+      };
 
-  const handleBuy=()=>{
+      // create attestaion and sell transaction here
+      console.log("Creating attestation :", transaction.attestation);
+
+      const attestation: AttestationResult = await createAttestation(
+        transaction.attestation,
+        vendorWalletAddress as string,
+        attestationId as string
+      );
+
+      console.log(attestation.attestationId);
+
+      // if (attestationId !== "") {
+      //   console.log("Updating transaction");
+      //   await updateTransaction(attestationId);
+      // }
+
+
+      // // save transaction obj to db
+      // const res = await createTransaction({
+      //   ...transaction,
+      //   attestationId: attestation.attestationId,
+      // }); //
+      // console.log("saved transaction to database : ", res);
+
+    } catch (error) {
+      console.error("Error submitting record:", error);
+
+    }
+  }
+
+
+  const handleBuy=async()=>{
     console.log(address);
     console.log(vendorWalletAddress);
     console.log("Hit Buy");
+    try{
+      await createSell();
+      console.log("Done");
+
+    }
+    catch(error){
+      console.log("Error in Attestation ",error);
+    }
   }
 
   const handleHistory=()=>{
@@ -112,10 +173,10 @@ async function createAttestation(
       indexingValue: wallet,
       // linkedAttestationId: previousAttestationId,
     });
-    // console.log(res);
+    console.log(res);
     return res;
   } catch (error) {
-    console.error(error);
+    console.error("We are here",error);
     throw new Error("An unexpected error occurred");
   }
 }

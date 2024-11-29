@@ -18,7 +18,7 @@ export interface Product extends Drug {
 }
 
 export interface ProductAttestationSchema {
-  drugName: string;
+  productName: string;
   productSerialNo: string;
   soldBy: string;
   boughtBy: string;
