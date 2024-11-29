@@ -1,27 +1,36 @@
 import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from "@/shad/card";
 import { Separator } from "@/shad/separator";
+import { useAccount} from "wagmi";
 
-interface Drug {
-  drugName: string;
-  compositions: Composition[];
-  units: number;
-  totalDosage: number;
-  price: number;
-  expiryDate: string;
-}
-interface Composition {
-  name: string;
-  dosage: string;
-}
+import {
+  SignProtocolClient,
+  EvmChains,
+  SpMode,
+  OnChainClientOptions,
+  AttestationResult
+} from "@ethsign/sp-sdk";
+import { Product,ProductAttestationSchema } from '@/lib/types';
 
-interface Product extends Drug {
-  vendorWalletAddress: string;
-}
+
 
 
 export const Component = (props: {data: Product }) => {
-  const { drugName, compositions, units, totalDosage, price, expiryDate } = props.data;
+  const { drugName, compositions, units, totalDosage, price, expiryDate,vendorWalletAddress} = props.data;
+
+  const { isConnected, address } = useAccount();
+
+
+  const handleBuy=()=>{
+    console.log(address);
+    console.log(vendorWalletAddress);
+    console.log("Hit Buy");
+  }
+
+  const handleHistory=()=>{
+    console.log("Hit History");
+  }
+
 
   return (
     <div className="w-full max-w-lg mx-auto p-6">
@@ -63,10 +72,10 @@ export const Component = (props: {data: Product }) => {
 
             <div className="absolute bottom-0 right-0 flex items-end justify-end">
               <div className="flex flex-col space-y-2">
-                <button className="bg-red-600 text-white font-bold py-2 px-4 rounded-full hover:bg-red-700">
+                <button className="bg-red-600 text-white font-bold py-2 px-4 rounded-full hover:bg-red-700" onClick={handleHistory}>
                   Transaction History
                 </button>
-                <button className="bg-green-400 text-white font-bold py-2 px-4 rounded-full hover:bg-green-500">
+                <button className="bg-green-400 text-white font-bold py-2 px-4 rounded-full hover:bg-green-500" onClick={handleBuy}>
                   Buy
                 </button>
               </div>
@@ -80,3 +89,33 @@ export const Component = (props: {data: Product }) => {
 
   );
 };
+
+async function createAttestation(
+  product: ProductAttestationSchema,
+  wallet: string,
+  previousAttestationId?: string
+): Promise<AttestationResult> {
+  // Get attestation using SignProtocolClient
+  try {
+    const spMode = SpMode.OnChain;
+
+    const options: OnChainClientOptions = {
+      //@ts-ignore
+      chain: EvmChains.arbitrumSepolia,
+      // rpcUrl: arbitrumSepolia.rpcUrls.default.http[0],
+    };
+
+    const signProtocolClient = new SignProtocolClient(spMode, options);
+    const res: AttestationResult = await signProtocolClient.createAttestation({
+      data: product,
+      schemaId: "0x19",
+      indexingValue: wallet,
+      // linkedAttestationId: previousAttestationId,
+    });
+    // console.log(res);
+    return res;
+  } catch (error) {
+    console.error(error);
+    throw new Error("An unexpected error occurred");
+  }
+}

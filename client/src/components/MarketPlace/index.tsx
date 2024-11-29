@@ -6,27 +6,7 @@ import { url } from '@/env';
 
 
 import { useAccount} from "wagmi";
-
-
-
-interface Drug {
-  drugName: string;
-  compositions: Composition[];
-  units: number;
-  totalDosage: number;
-  price: number;
-  expiryDate: string;
-}
-interface Composition {
-  name: string;
-  dosage: string;
-}
-
-interface Product extends Drug {
-  vendorWalletAddress: string;
-  _id:string
-}
-
+import { Product } from '@/lib/types';
 
 
 const MarketPlace: React.FC = () => {
@@ -56,18 +36,18 @@ const MarketPlace: React.FC = () => {
   },[]);
 
 
-  const p: Product = {
-    drugName: "Dolo",
-    compositions: [{ name: "Acetaminophen", dosage: "500" },
-    { name: "Caffeine", dosage: "65" }
-    ],
-    units: 100,
-    totalDosage: 56500,
-    price: 29.99,
-    expiryDate: "2025-12-31",
-    vendorWalletAddress: "0x123abc456def",
-    _id:"123"
-  }
+  // const p: Product = {
+  //   drugName: "Dolo",
+  //   compositions: [{ name: "Acetaminophen", dosage: "500" },
+  //   { name: "Caffeine", dosage: "65" }
+  //   ],
+  //   units: 100,
+  //   totalDosage: 56500,
+  //   price: 29.99,
+  //   expiryDate: "2025-12-31",
+  //   vendorWalletAddress: "0x123abc456def",
+  //   _id:"123"
+  // }
 
   return (
     <Layout >
