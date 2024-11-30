@@ -1,9 +1,10 @@
 import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from "@/shad/card";
+import { Dialog, DialogContent, DialogTrigger } from "@/shad/dialog";
 import { Separator } from "@/shad/separator";
-import { useAccount} from "wagmi";
+import { useAccount } from "wagmi";
 import axios from 'axios';
-import {url} from "@/env";
+import { url } from "@/env";
 
 import {
   SignProtocolClient,
@@ -14,30 +15,31 @@ import {
 } from "@ethsign/sp-sdk";
 import { ProductAttestationSchema, Transaction } from '@/lib/types';
 
+import ViewHistory from './history';
 
 
+export const Component = (props: { data: Transaction }) => {
+  let { _id, drug, attestationId, owner, timestamp } = props.data;
+  attestationId=(attestationId===undefined?'':attestationId);
 
-export const Component = (props: {data: Transaction }) => {
-  let {_id, drug,attestationId,owner,timestamp} = props.data;
-
-  const {drugName, compositions, units, totalDosage, price, expiryDate}=drug;
+  const { drugName, compositions, units, totalDosage, price, expiryDate } = drug;
 
   const { isConnected, address } = useAccount();
 
   async function createSell() {
-    const sno="1";
-    const taxRate=0;
-    if(attestationId===undefined)
-      attestationId="";
+    const sno = "1";
+    const taxRate = 0;
+    if (attestationId === undefined)
+      attestationId = "";
     try {
-      const _attestation:ProductAttestationSchema={
+      const _attestation: ProductAttestationSchema = {
         previousAttestationId: attestationId,
-        productSerialNo:sno,
+        productSerialNo: sno,
         productName: drugName,
-        soldBy:  owner as string,
+        soldBy: owner as string,
         boughtBy: address as string,
         grandTotal: Number(price),
-        taxRate:taxRate
+        taxRate: taxRate
       }
 
       // create attestaion and sell transaction here
@@ -55,23 +57,23 @@ export const Component = (props: {data: Transaction }) => {
 
       const newTransaction: Transaction = {
         ...props.data,
-        attestationId:attestation.attestationId,
-        owner:address,
-        timestamp:new Date()
+        attestationId: attestation.attestationId,
+        owner: address,
+        timestamp: new Date()
       };
 
 
       //const response= await axios.post(url+'/create/addItem', newProduct);
-      const response= await axios.post(url+'/create/transaction', newTransaction);
+      const response = await axios.post(url + '/create/transaction', newTransaction);
 
-        if (response.status === 201) {
+      if (response.status === 201) {
 
-          console.log("saved transaction to database : ", response);
+        console.log("saved transaction to database : ", response);
 
-        } else {
+      } else {
 
-          console.error('Failed to create product:', response.statusText);
-        }
+        console.error('Failed to create product:', response.statusText);
+      }
 
 
 
@@ -82,23 +84,22 @@ export const Component = (props: {data: Transaction }) => {
   }
 
 
-  const handleBuy=async()=>{
+  const handleBuy = async () => {
     console.log(address);
     console.log(owner);
-    console.log("Hit Buy");
-    try{
+
+    try {
       await createSell();
-      console.log("Done");
-
     }
-    catch(error){
-      console.log("Error in Attestation ",error);
+    catch (error) {
+      console.log("Error in Attestation ", error);
     }
   }
 
-  const handleHistory=()=>{
-    console.log("Hit History");
-  }
+  // const handleHistory = () => {
+  //   console.log("Hit History");
+  //   ViewHistory();
+  // }
 
 
   return (
@@ -141,9 +142,18 @@ export const Component = (props: {data: Transaction }) => {
 
             <div className="absolute bottom-0 right-0 flex items-end justify-end">
               <div className="flex flex-col space-y-2">
-                <button className="bg-red-600 text-white font-bold py-2 px-4 rounded-full hover:bg-red-700" onClick={handleHistory}>
-                  Transaction History
-                </button>
+
+                <Dialog>
+                  <DialogTrigger asChild>
+                    <button className="bg-red-600 text-white font-bold py-2 px-4 rounded-full hover:bg-red-700" >
+                      Transaction History
+                    </button>
+                  </DialogTrigger>
+                  <DialogContent className="bg-white max-w-[60%] h-[90%] overflow-y-auto">
+                    <ViewHistory attestationId={attestationId} />
+                  </DialogContent>
+                </Dialog>
+
                 <button className="bg-green-400 text-white font-bold py-2 px-4 rounded-full hover:bg-green-500" onClick={handleBuy}>
                   Buy
                 </button>
@@ -184,7 +194,7 @@ async function createAttestation(
     console.log(res);
     return res;
   } catch (error) {
-    console.error("We are here",error);
+    console.error("We are here", error);
     throw new Error("An unexpected error occurred");
   }
 }

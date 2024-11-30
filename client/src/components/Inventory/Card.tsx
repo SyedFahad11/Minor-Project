@@ -1,9 +1,11 @@
 import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from "@/shad/card";
+import { Dialog, DialogContent, DialogTrigger } from "@/shad/dialog";
 import { Separator } from "@/shad/separator";
-import { useAccount} from "wagmi";
+import { useAccount } from "wagmi";
 import axios from 'axios';
-import {url} from "@/env";
+import { url } from "@/env";
+import ViewHistory from './history';
 
 import {
   SignProtocolClient,
@@ -17,24 +19,25 @@ import { ProductAttestationSchema, Transaction } from '@/lib/types';
 
 
 
-export const Component = (props: {data: Transaction }) => {
-  let {_id, drug,attestationId,owner,archive,timestamp} = props.data;
+export const Component = (props: { data: Transaction }) => {
+  let { _id, drug, attestationId, owner, archive, timestamp } = props.data;
+  attestationId=(attestationId===undefined?'':attestationId);
 
-  const {drugName, compositions, units, totalDosage, price, expiryDate}=drug;
+  const { drugName, compositions, units, totalDosage, price, expiryDate } = drug;
 
   const { isConnected, address } = useAccount();
 
 
 
-  const handleArchive=async()=>{
+  const handleArchive = async () => {
     console.log(address);
 
-    try{
-      const body={
-        _id:_id,
-        archive:!archive
+    try {
+      const body = {
+        _id: _id,
+        archive: !archive
       }
-      const response= await axios.post(url+'/update/archiveStatus', body);
+      const response = await axios.post(url + '/update/archiveStatus', body);
 
       if (response.status === 201) {
 
@@ -45,12 +48,12 @@ export const Component = (props: {data: Transaction }) => {
         console.error('Failed to update statis:', response.statusText);
       }
     }
-    catch(error){
-      console.log("Error in Attestation ",error);
+    catch (error) {
+      console.log("Error in Attestation ", error);
     }
   }
 
-  const handleHistory=()=>{
+  const handleHistory = () => {
     console.log("Hit History");
   }
 
@@ -95,16 +98,24 @@ export const Component = (props: {data: Transaction }) => {
 
             <div className="absolute bottom-0 right-0 flex items-end justify-end">
               <div className="flex flex-col space-y-2">
-                <button className="bg-red-600 text-white font-bold py-2 px-4 rounded-full hover:bg-red-700" onClick={handleHistory}>
-                  Transaction History
-                </button>
-                {archive===true? (
+                <Dialog>
+                  <DialogTrigger asChild>
+                    <button className="bg-red-600 text-white font-bold py-2 px-4 rounded-full hover:bg-red-700" >
+                      Transaction History
+                    </button>
+                  </DialogTrigger>
+                  <DialogContent className="bg-white max-w-[60%] h-[90%] overflow-y-auto">
+                    <ViewHistory attestationId={attestationId} />
+                  </DialogContent>
+                </Dialog>
+
+                {archive === true ? (
                   <button className="bg-green-400 text-white font-bold py-2 px-4 rounded-full hover:bg-green-500" onClick={handleArchive}>
-                  Sell
-                </button>):(
+                    Sell
+                  </button>) : (
                   <button className="bg-yellow-400 text-white font-bold py-2 px-4 rounded-full hover:bg-yellow-500" onClick={handleArchive}>
-                  Archive
-                </button>) }
+                    Archive
+                  </button>)}
 
               </div>
             </div>
@@ -143,7 +154,7 @@ async function createAttestation(
     console.log(res);
     return res;
   } catch (error) {
-    console.error("We are here",error);
+    console.error("We are here", error);
     throw new Error("An unexpected error occurred");
   }
 }
