@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Layout from '../Layout';
 import { Component } from './Card';
 import axios from 'axios';
@@ -7,12 +8,18 @@ import { url } from '@/env';
 
 import { useAccount } from "wagmi";
 import { Transaction } from '@/lib/types';
+import { Route } from 'react-router-dom';
 
 
 const MarketPlace: React.FC = () => {
 
   const [data, setData] = useState<Transaction[]>();
   const { isConnected, address } = useAccount();
+
+  const navigate = useNavigate();
+  if(isConnected===false){
+    navigate('/');
+  }
 
   const [isSticky, setIsSticky] = useState(false);
 

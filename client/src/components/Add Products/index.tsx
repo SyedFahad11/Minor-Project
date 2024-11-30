@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from 'react-router-dom';
 import { Input } from "@/shad/input";
 import { Button } from "@/shad/button";
 import { Label } from "@/shad/label";
@@ -25,6 +26,12 @@ export default function SellDrug() {
 
   const { isConnected, address } = useAccount();
 
+  const navigate = useNavigate();
+  if(isConnected===false){
+    navigate('/');
+  }
+
+
   const handleAddComposition = () => {
     setCompositions([...compositions, { name: "", dosage: "" }]);
   };
@@ -37,16 +44,6 @@ export default function SellDrug() {
 
   const handleSubmit = async(e: React.FormEvent) => {
     e.preventDefault();
-    // const newProduct: Product = {
-    //   drugName,
-    //   compositions,
-    //   units,
-    //   totalDosage,
-    //   price,
-    //   expiryDate,
-    //   vendorWalletAddress:address
-    // };
-
 
     const uniqueId = uuidv4();
 
@@ -66,8 +63,13 @@ export default function SellDrug() {
     const response= await axios.post(url+'/create/transaction', newProduct);
 
       if (response.status === 201) {
-
         console.log('Product created successfully!');
+        setDrugName("");
+        setCompositions([{ name: "", dosage: "" }]);
+        setUnits(0);
+        setTotalDosage(0);
+        setPrice(0);
+        setExpiryDate("");
 
       } else {
 

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Layout from '../Layout';
 import { Component } from './Card';
 import axios from 'axios';
@@ -13,6 +14,11 @@ const MarketPlace: React.FC = () => {
 
   const [data, setData] = useState<Transaction[]>();
   const { isConnected, address } = useAccount();
+
+  const navigate = useNavigate();
+  if(isConnected===false){
+    navigate('/');
+  }
 
   const [isSticky, setIsSticky] = useState(false);
 
