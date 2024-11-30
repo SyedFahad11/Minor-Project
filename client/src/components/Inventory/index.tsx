@@ -41,7 +41,7 @@ const MarketPlace: React.FC = () => {
 
     fetchData();
 
-  }, [data]);
+  }, []);
 
 
   // const p: Product = {
