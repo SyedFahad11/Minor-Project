@@ -25,11 +25,11 @@ var TransactionModel=require("../../models/SimpleTransaction");
 //   }
 // });
 
-router.post("/getItems", async (req: Request, res: Response) => {
+router.post("/getItemsMarketPlace", async (req: Request, res: Response) => {
   try {
     const currAddress = req.body.address;
 
-    const products = await TransactionModel.find({ owner: { $ne: currAddress } });
+    const products = await TransactionModel.find({ owner: { $ne: currAddress }, archive:false });
 
     console.log(products);
 
@@ -39,6 +39,22 @@ router.post("/getItems", async (req: Request, res: Response) => {
     res.status(500).json({ message: "Error fetching items" });
   }
 });
+
+router.post("/getItemsInventory", async (req: Request, res: Response) => {
+  try {
+    const currAddress = req.body.address;
+
+    const products = await TransactionModel.find({ owner: currAddress});
+
+    console.log(products);
+
+    res.status(200).json(products);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Error fetching items" });
+  }
+});
+
 
 
 

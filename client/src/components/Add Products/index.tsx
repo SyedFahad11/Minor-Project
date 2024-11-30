@@ -49,12 +49,13 @@ export default function SellDrug() {
 
 
     const uniqueId = uuidv4();
-    
+
     const newProduct: Transaction = {
       _id:uniqueId,
       drug:{drugName,compositions,units,totalDosage,price,expiryDate},
       attestationId:"",
       owner:address,
+      archive:false,
       timestamp:new Date()
     };
 

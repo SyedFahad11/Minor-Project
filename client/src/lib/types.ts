@@ -32,5 +32,6 @@ export interface Transaction {
   drug:Drug;
   attestationId?: string;
   owner?: string;
+  archive:boolean;
   timestamp: Date;
 }

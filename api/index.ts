@@ -14,6 +14,7 @@ connectToMongo();
 
 app.use('/api/create', require("./routes/create/index"));
 app.use('/api/read', require("./routes/read/index"));
+app.use('/api/update', require("./routes/update/index"));
 
 
 

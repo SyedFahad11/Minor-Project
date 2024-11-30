@@ -24,6 +24,7 @@ const transactionSchema = new mongoose.Schema<Transaction>({
   drug: { type: drugSchema, required: true },
   attestationId: { type: String},
   owner: { type: String, required: true },
+  archive:{type:Boolean},
   timestamp: { type: Date, default: Date.now },
 
 }

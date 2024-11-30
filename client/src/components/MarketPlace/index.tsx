@@ -21,7 +21,7 @@ const MarketPlace: React.FC = () => {
       try {
         const body = { address: address }
 
-        axios.post(url + '/read/getItems', body)
+        axios.post(url + '/read/getItemsMarketPlace', body)
           .then((response) => {
             setData(response.data);
             //console.log(response.data);
@@ -34,7 +34,7 @@ const MarketPlace: React.FC = () => {
 
     fetchData();
 
-  }, []);
+  }, [data]);
 
 
   // const p: Product = {
